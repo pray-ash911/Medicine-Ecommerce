@@ -1,0 +1,39 @@
+{% extends "customer_base.html" %}
+
+{% block title %}Customer Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Welcome, {{ username }}!</h2>
+    <p>Here you can view your recent activities, orders, and more.</p>
+
+    <!-- Order History Section -->
+    <h3>Your Order History</h3>
+    {% if orders %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Medicine Name</th>
+                <th>Date</th>
+                <th>Total</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.medicine.name if order.medicine else 'N/A' }}</td>
+                <td>{{ order.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ order.total }}</td>
+                <td>{{ order.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>You have no orders yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

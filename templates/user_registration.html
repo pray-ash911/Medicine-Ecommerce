@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}User Registration{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 form-container">
+        <h2 class="text-center mb-4">User Registration</h2>
+        <form action="{{ url_for('auth.register') }}" method="POST">
+
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+
+            <!-- Role selection -->
+        <label for="role">Role:</label>
+        <select name="role" id="role" required>
+            <option value="Customer">Customer</option>
+            <option value="Admin">Admin</option>
+        </select>
+        <br>
+
+
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="{{ url_for('auth.login') }}">Already have an account? Login here.</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

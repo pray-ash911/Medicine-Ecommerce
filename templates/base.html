@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Website{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background */
+        }
+        header {
+            background-color: #43a047; /* Soft green for the header */
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .contact-info {
+            font-size: 14px;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            padding: 20px 0;
+            background-color: #e0e0e0; /* Light gray for footer */
+            color: #212121;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .btn-primary {
+            background-color: #43a047; /* Soft green for buttons */
+            border-color: #43a047;
+        }
+        .btn-primary:hover {
+            background-color: #388e3c; /* Darker green on hover */
+            border-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Moon Medical Enterprises</h1>
+        <p class="contact-info">Contact: +123456789 | Email: contact@moonmedical.com</p>
+    </header>
+
+    <div class="container mt-5">
+        <!-- Flash messages block -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Main content block where forms will appear -->
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>© 2024 Moon Medical Enterprises. All rights reserved.</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

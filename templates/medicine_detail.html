@@ -1,0 +1,32 @@
+{% extends "customer_base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-6">
+            {% if medicine.image_url %}
+                <img src="{{ url_for('static', filename=medicine.image_url) }}" alt="{{ medicine.name }}" class="img-fluid" style="border-radius: 8px; max-height: 400px; object-fit: cover;">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h2>{{ medicine.name }}</h2>
+            <p class="text-muted">{{ medicine.description }}</p>
+            <p>Price: ${{ medicine.price }}</p>
+
+            {% if medicine.discount %}
+                <p>Discount: {{ medicine.discount }}%</p>
+                <p><strong>Discounted Price: ${{ medicine.get_discounted_price() }}</strong></p>
+            {% endif %}
+
+            <p>Stock Available: {{ medicine.stock }}</p>
+
+            <div class="mt-4">
+                <button class="btn btn-success">Add to Cart</button>
+                <a href="{{ url_for('user.home') }}" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

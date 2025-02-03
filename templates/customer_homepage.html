@@ -1,0 +1,121 @@
+{% extends "customer_base.html" %}
+
+{% block content %}
+<form action="{{ url_for('user.search') }}" method="get" class="search-form">
+    <input type="text" name="query" placeholder="Search for medicines..." required>
+    <button type="submit">Search</button>
+</form>
+
+{% if query %}
+    <h2>Search results for "{{ query }}"</h2>
+    {% if not medicines %}
+        <p>No results found for "{{ query }}".</p>
+    {% endif %}
+{% endif %}
+
+<div class="container">
+    <h2 class="my-4">Available Medicines</h2>
+    <div class="row">
+        {% if medicines %}
+            {% if medicines.pagination %}
+                {% for medicine in medicines.items %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm medicine-item">
+                            {% if medicine.image_url %}
+                                <img src="{{ url_for('static', filename=medicine.image_url) }}" alt="{{ medicine.name }}" class="card-img-top medicine-image">
+                            {% else %}
+                                <p class="text-center">No image available</p>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ medicine.name }}</h5>
+                                <p class="card-text">{{ medicine.description }}</p>
+                                <p class="text-muted">Price: ${{ medicine.price }}</p>
+                                {% if medicine.discount %}
+                                    <p class="text-danger">Discount: {{ medicine.discount }}%</p>
+                                    <p class="text-success font-weight-bold">Discounted Price: ${{ medicine.get_discounted_price() }}</p>
+                                {% endif %}
+                                <p class="text-muted">Stock: {{ medicine.stock }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{ url_for('user.medicine_detail', medicine_id=medicine.id) }}" class="btn btn-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                {% for medicine in medicines %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm medicine-item">
+                            {% if medicine.image_url %}
+                                <img src="{{ url_for('static', filename=medicine.image_url) }}" alt="{{ medicine.name }}" class="card-img-top medicine-image">
+                            {% else %}
+                                <p class="text-center">No image available</p>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ medicine.name }}</h5>
+                                <p class="card-text">{{ medicine.description }}</p>
+                                <p class="text-muted">Price: ${{ medicine.price }}</p>
+                                {% if medicine.discount %}
+                                    <p class="text-danger">Discount: {{ medicine.discount }}%</p>
+                                    <p class="text-success font-weight-bold">Discounted Price: ${{ medicine.get_discounted_price() }}</p>
+                                {% endif %}
+                                <p class="text-muted">Stock: {{ medicine.stock }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="{{ url_for('user.medicine_detail', medicine_id=medicine.id) }}" class="btn btn-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% else %}
+            <p>No medicines available at the moment.</p>
+        {% endif %}
+    </div>
+
+    <!-- Pagination Controls for non-search results -->
+    {% if medicines.pagination %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if medicines.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('user.home', page=medicines.prev_num) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for page_num in medicines.iter_pages() %}
+                    {% if page_num %}
+                        <li class="page-item {% if page_num == medicines.page %}active{% endif %}">
+                            <a class="page-link" href="{{ url_for('user.home', page=page_num) }}">{{ page_num }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><a class="page-link">…</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if medicines.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('user.home', page=medicines.next_num) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}
