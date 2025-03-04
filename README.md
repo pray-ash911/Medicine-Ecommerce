@@ -19,7 +19,7 @@ Technologies Used
 
 Installation & Usage
 1. Clone the repository:
-   git clone https://github.com/yourusername/medicine-ecommerce.git
+   git clone https://github.com/pray-ash911/Medicine-Ecommerce.git
 
 2. Navigate to the project directory:
    cd medicine-ecommerce
